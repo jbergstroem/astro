@@ -125,6 +125,7 @@ async function ssrBuild(opts: StaticBuildOptions, internals: BuildInternals, inp
 			emptyOutDir: false,
 			manifest: false,
 			outDir: fileURLToPath(out),
+			copyPublicDir: !ssr,
 			rollupOptions: {
 				...viteConfig.build?.rollupOptions,
 				input: [],
@@ -139,7 +140,7 @@ async function ssrBuild(opts: StaticBuildOptions, internals: BuildInternals, inp
 			ssr: true,
 			// improve build performance
 			minify: false,
-			polyfillModulePreload: false,
+			modulePreload: { polyfill: false },
 			reportCompressedSize: false,
 		},
 		plugins: [
@@ -156,7 +157,6 @@ async function ssrBuild(opts: StaticBuildOptions, internals: BuildInternals, inp
 			settings.config.output === 'server' && vitePluginSSR(internals, settings.adapter!),
 			vitePluginAnalyzer(internals),
 		],
-		publicDir: ssr ? false : viteConfig.publicDir,
 		envPrefix: 'PUBLIC_',
 		base: settings.config.base,
 	};

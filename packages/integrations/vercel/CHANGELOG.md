@@ -1,5 +1,20 @@
 # @astrojs/vercel
 
+## 2.3.3
+
+### Patch Changes
+
+- [#5241](https://github.com/withastro/astro/pull/5241) [`070da6a79`](https://github.com/withastro/astro/commit/070da6a7926892917f9a3077cd644bd3a1b87e76) Thanks [@matthewp](https://github.com/matthewp)! - Fixes unknown error when using vercel/static
+
+- Updated dependencies [[`b6a478f37`](https://github.com/withastro/astro/commit/b6a478f37648491321077750bfca7bddf3cafadd)]:
+  - @astrojs/webapi@1.1.1
+
+## 2.3.2
+
+### Patch Changes
+
+- [#5175](https://github.com/withastro/astro/pull/5175) [`abf41da77`](https://github.com/withastro/astro/commit/abf41da774516395a49aca30693dccdc4f8d7114) Thanks [@JuanM04](https://github.com/JuanM04)! - Edge adapter includes all the generated files (all files inside `dist/`) instead of only `entry.mjs`
+
 ## 2.3.1
 
 ### Patch Changes

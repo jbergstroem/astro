@@ -31,8 +31,7 @@ export const LEGACY_ASTRO_CONFIG_KEYS = new Set([
 export async function validateConfig(
 	userConfig: any,
 	root: string,
-	cmd: string,
-	logging: LogOptions
+	cmd: string
 ): Promise<AstroConfig> {
 	const fileProtocolRoot = pathToFileURL(root + path.sep);
 	// Manual deprecation checks
@@ -97,6 +96,7 @@ export function resolveFlags(flags: Partial<Flags>): CLIFlags {
 	return {
 		root: typeof flags.root === 'string' ? flags.root : undefined,
 		site: typeof flags.site === 'string' ? flags.site : undefined,
+		base: typeof flags.base === 'string' ? flags.base : undefined,
 		port: typeof flags.port === 'number' ? flags.port : undefined,
 		config: typeof flags.config === 'string' ? flags.config : undefined,
 		host:
@@ -114,6 +114,7 @@ function mergeCLIFlags(astroConfig: AstroUserConfig, flags: CLIFlags, cmd: strin
 	astroConfig.server = astroConfig.server || {};
 	astroConfig.markdown = astroConfig.markdown || {};
 	if (typeof flags.site === 'string') astroConfig.site = flags.site;
+	if (typeof flags.base === 'string') astroConfig.base = flags.base;
 	if (typeof flags.drafts === 'boolean') astroConfig.markdown.drafts = flags.drafts;
 	if (typeof flags.port === 'number') {
 		// @ts-expect-error astroConfig.server may be a function, but TS doesn't like attaching properties to a function.
@@ -189,13 +190,7 @@ export async function openConfig(configOptions: LoadConfigOptions): Promise<Open
 	if (config) {
 		userConfig = config.value;
 	}
-	const astroConfig = await resolveConfig(
-		userConfig,
-		root,
-		flags,
-		configOptions.cmd,
-		configOptions.logging
-	);
+	const astroConfig = await resolveConfig(userConfig, root, flags, configOptions.cmd);
 
 	return {
 		astroConfig,
@@ -300,7 +295,7 @@ export async function loadConfig(configOptions: LoadConfigOptions): Promise<Astr
 	if (config) {
 		userConfig = config.value;
 	}
-	return resolveConfig(userConfig, root, flags, configOptions.cmd, configOptions.logging);
+	return resolveConfig(userConfig, root, flags, configOptions.cmd);
 }
 
 /** Attempt to resolve an Astro configuration object. Normalize, validate, and return. */
@@ -308,13 +303,19 @@ export async function resolveConfig(
 	userConfig: AstroUserConfig,
 	root: string,
 	flags: CLIFlags = {},
-	cmd: string,
-	logging: LogOptions
+	cmd: string
 ): Promise<AstroConfig> {
 	const mergedConfig = mergeCLIFlags(userConfig, flags, cmd);
-	const validatedConfig = await validateConfig(mergedConfig, root, cmd, logging);
+	const validatedConfig = await validateConfig(mergedConfig, root, cmd);
 
 	return validatedConfig;
+}
+
+export function createDefaultDevConfig(
+	userConfig: AstroUserConfig = {},
+	root: string = process.cwd()
+) {
+	return resolveConfig(userConfig, root, undefined, 'dev');
 }
 
 function mergeConfigRecursively(
