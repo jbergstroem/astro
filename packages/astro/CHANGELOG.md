@@ -1,5 +1,17 @@
 # astro
 
+## 1.6.3
+
+### Patch Changes
+
+- [#5258](https://github.com/withastro/astro/pull/5258) [`74759cf78`](https://github.com/withastro/astro/commit/74759cf787aefeeccc3fc336fdb0a56b982733bb) Thanks [@bluwy](https://github.com/bluwy)! - Allow 200 response for endpoints in build
+
+- [#5236](https://github.com/withastro/astro/pull/5236) [`1cc067052`](https://github.com/withastro/astro/commit/1cc067052438602d9378bf84dc7754c09afdfbe8) Thanks [@bluwy](https://github.com/bluwy)! - Refactor CSS preprocessing handling
+
+- [#5198](https://github.com/withastro/astro/pull/5198) [`c77a6cbe3`](https://github.com/withastro/astro/commit/c77a6cbe345facbf72c453e2fddc00f20c98983f) Thanks [@matthewp](https://github.com/matthewp)! - HMR - Improved error recovery
+
+  This improves error recovery for HMR. Now when the dev server finds itself in an error state (because a route contained an error), it will recover from that state and refresh the page when the user has corrected the mistake.
+
 ## 1.6.2
 
 ### Patch Changes
